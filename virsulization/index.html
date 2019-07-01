@@ -13,9 +13,9 @@
     
     
         
-    var redraw;
-    var height = 600;
-    var width = 600;
+var redraw;
+var height = 600;
+var width = 600;
 
 window.onload = function() {
     
@@ -46,7 +46,36 @@ window.onload = function() {
         g.addNode($("#add_node").val(), {render:render});
           
      });
+    
+    /* modify the addEdge function to attach random weights */
+    g.addEdge2 = g.addEdge;
+    //g.addEdge = function(from, to, style) { !style && (style={}); style.weight = Math.floor(Math.random()*10) + 1; g.addEdge2(from, to, style); };
+    g.addEdge = function(from, to, style) { !style && (style={}); style.weight ; g.addEdge2(from, to, style); };
+    
+    /* connections */
+    //g.addEdge("Tokyo", "Tel Aviv"/*, {weight:9, directed: true, stroke : "#bfa"}*/); // also supports directed graphs, but currently doesn't look that nice
+    
+    $(".send2").click(function(){    
+        console.log($("#from").val());
+        console.log($("#to").val());
+        console.log($("#weight").val());
+        
+        g.addEdge($("#from").val() , $("#to").val() , {weight: Number($("#weight").val()), directed: false, stroke : "#bfa"});
+        
+        $("#from").val('');
+        $("#to").val('');
+        $("#weight").val('');
+        
+    });
+    
 
+    /* random edge weights (our undirected graph is modelled as a bidirectional graph) */
+/*    for(e in g.edges)
+        if(g.edges[e].backedge != undefined) {
+            g.edges[e].weight = Math.floor(Math.random()*10) + 1;
+            g.edges[e].backedge.weight = g.edges[e].weight;
+        }
+*/
     /* layout the graph using the Spring layout implementation */
     var layouter = new Graph.Layout.Spring(g);
     layouter.layout();
@@ -54,11 +83,33 @@ window.onload = function() {
     /* draw the graph using the RaphaelJS draw implementation */
     var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
 
+    /* calculating the shortest paths via Bellman Ford */
+//    bellman_ford(g, g.nodes["Berlin"]);
+    
+    /* calculating the shortest paths via Dijkstra */
+    //dijkstra(g, g.nodes["Berlin"]);
+    
+    /* calculating the shortest paths via Floyd-Warshall */
+   // floyd_warshall(g, g.nodes["Berlin"]);
+
+
+    /* colourising the shortest paths and setting labels */
+    for(e in g.edges) {
+        g.edges[e].style = { label : g.edges[e].weight };
+        g.edges[e].style.stroke = "#999";
+    }
+    
+    
     
     renderer.draw();
 
     redraw = function() {
-        var layouter = new Graph.Layout.Spring(g);  
+        var layouter = new Graph.Layout.Spring(g);
+        for(e in g.edges) {
+        g.edges[e].style = { label : g.edges[e].weight };
+        g.edges[e].style.stroke = "#999";
+        }       
+        
         layouter.layout();
         renderer.draw();
     };
@@ -79,5 +130,18 @@ window.onload = function() {
         <input type="text" id="page_rank" placeholder="enter the page weight"/>
         <br>
         <button class="send">add node</button>
-        <button id="redraw" onclick="redraw();">show</button>  
+        <button id="redraw" onclick="redraw();">show</button>
+    
+        <br><br>
+        <label>edge</label>
+        <br>
+        <input type="text" id="from" placeholder="enter first node" style="width: 200px"/>
+        <br>
+        <input type="text" id="to" placeholder="enter second node" style="width: 200px"/>
+        <br>
+        <input type="text" id="weight" placeholder="enter the weight of edge" style="width: 200px"/>
+        <br>
+        <button class="send2">add edge</button>
+        <button id="redraw" onclick="redraw();">show</button>     
+    
 </body>
