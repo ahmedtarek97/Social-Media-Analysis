@@ -5,7 +5,7 @@ property for each node in the graph.
 
 #### Types of centrality supported
 1. **Degree Centrality**
-2.**Closeness Centrality**
+2. **Closeness Centrality**
 The degree of centrality of a node is the number of nodes connected to this node
 
 Closeness centrality indicates how close a node is to all other nodes in the network. It is
