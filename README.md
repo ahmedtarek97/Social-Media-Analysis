@@ -3,10 +3,11 @@ This project simulates techniques  used in social media analysis to determine th
 graph containing millions of users and connections.The project aims at applying algorithms based on graph theory to compute the centrality
 property for each node in the graph.
 
-###### Types of centrality supported
+#### Types of centrality supported
 1. **Degree Centrality**
-The degree of centrality of a node is the number of nodes connected to this node
 2.**Closeness Centrality**
+The degree of centrality of a node is the number of nodes connected to this node
+
 Closeness centrality indicates how close a node is to all other nodes in the network. It is
 calculated as the average of the shortest path length from the node to every other node in
 the network.To calculate closeness centrality we use **Dijestra Algorithm**
