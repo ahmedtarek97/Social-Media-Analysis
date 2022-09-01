@@ -27,9 +27,6 @@ int main()
 	if (myfile.is_open())
 	{
 
-		
-
-
 	}
 	else
 	{
@@ -37,15 +34,9 @@ int main()
 		cout<<"error";
 
 	}
-
 	
-	myfile >> n >> m;
-	
-	
-	
+	myfile >> n >> m;	
 	vector< list< pair<int, int> > > graph(n);
-
-
 	vector<double>out1;
 	for (int i = 0; i < m; i++)
 	{
@@ -53,28 +44,17 @@ int main()
 		myfile >> x >> y >> z;
 
 		graph[x].push_back(make_pair(y, z));
-
 		graph[y].push_back(make_pair(x, z));
-
-
 
 	}
 
-	myfile.close();
-	
+	myfile.close();	
 	out1 = closeness_centrality_graph(graph);
-
-
 
 	for (int j = 0; j < out1.size(); j++)
 	{
-
 		cout << setprecision(11) << out1[j] << '\n';
-
 	}
-
-
-
 	
 }
 
@@ -97,21 +77,19 @@ vector<int> get_shortest_distance(int src, vector< list< pair<int, int> > > grap
 {
 	list< pair<int, int> >::iterator i;
 	priority_queue < pair<int, int>, vector< pair<int, int> >, Comparepairs> heap;
-	vector<int> distance_from_nodes(graph.size(), 214748347);
+	vector<int> distance_from_nodes(graph.size(), MAX_INT);
 	heap.push({ src,0 });
 
 
 	while (!heap.empty())
 	{
-
 		int current_node = heap.top().first;
 		int current_distance = heap.top().second;
 
 		heap.pop();
 
-		if (distance_from_nodes[current_node] != 214748347)
+		if (distance_from_nodes[current_node] != MAX_INT)
 			continue;
-
 
 		distance_from_nodes[current_node] = current_distance;
 
@@ -120,24 +98,12 @@ vector<int> get_shortest_distance(int src, vector< list< pair<int, int> > > grap
 			pair<int, int>p = *i;
 			p.second += current_distance;
 
-			if (distance_from_nodes[p.first] != 214748347)
+			if (distance_from_nodes[p.first] != MAX_INT)
 				continue;
 			heap.push(p);
-
-
 		}
-
-
-
-
-
 	}
-
-
-
 	return distance_from_nodes;
-
-
 }
 
 
@@ -156,7 +122,6 @@ double closeness_centrality_node(int index, vector< list< pair<int, int> > > gra
 	}
 
 	cc = ((double)(n - 1)) / ((double)sum);
-
 	return cc;
 
 }
@@ -171,7 +136,6 @@ vector<double>closeness_centrality_graph(vector< list< pair<int, int> > > graph)
 		out[i] = closeness_centrality_node(i, graph);
 
 	}
-
 
 	return out;
 
